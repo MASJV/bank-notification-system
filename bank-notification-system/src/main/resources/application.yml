@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: bank-notification-system
+
+server:
+    port: 8081

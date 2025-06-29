@@ -45,4 +45,13 @@ public class UserRepository implements IUserRepository{
         }
         throw new InsufficienctBalanceException("Insufficient Balance"); // where this is seen
     }
+
+    @Override
+    public User updateAUser(int userId, String name, Channel channel, Integer bankBalance) throws UserNotFoundException{
+        final User user = getAUser(userId);
+        user.setName(name);
+        user.setChannel(channel);
+        user.setBankBalance(bankBalance);
+        return user;
+    }
 }

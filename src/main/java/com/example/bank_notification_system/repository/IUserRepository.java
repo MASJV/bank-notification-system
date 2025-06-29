@@ -11,4 +11,5 @@ public interface IUserRepository { // no public void, by default its public????
     void createAUser(User user, Channel channel, Integer bankBalance);
     User getAUser(int userId) throws UserNotFoundException;
     List<User> moneyTransfer(User user2, User user1, int money) throws InsufficienctBalanceException;
+    User updateAUser(int userId, String name, Channel channel, Integer bankBalance) throws UserNotFoundException;
 }

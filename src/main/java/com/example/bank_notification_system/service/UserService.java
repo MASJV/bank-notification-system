@@ -5,6 +5,7 @@ import com.example.bank_notification_system.exception.InsufficienctBalanceExcept
 import com.example.bank_notification_system.exception.UserNotFoundException;
 import com.example.bank_notification_system.model.dto.CreateUserRequestDto;
 import com.example.bank_notification_system.model.dto.MoneyTransferRequestDto;
+import com.example.bank_notification_system.model.dto.UpdateUserRequestDto;
 import com.example.bank_notification_system.model.entity.User;
 import com.example.bank_notification_system.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class UserService {
         User user2 = getAUser(moneyTransferRequestDto.getUserId2());
         return userRepository.moneyTransfer(user1, user2, moneyTransferRequestDto.getMoney());
 
+    }
+
+    public User updateAUser(int userId, final UpdateUserRequestDto updateUserRequestDto) throws UserNotFoundException{
+        return userRepository.updateAUser(userId, updateUserRequestDto.getName(), updateUserRequestDto.getChannel(),
+                                            updateUserRequestDto.getBankBalance());
     }
 }

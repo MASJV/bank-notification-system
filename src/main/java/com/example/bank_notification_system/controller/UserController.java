@@ -5,6 +5,7 @@ import com.example.bank_notification_system.exception.InsufficienctBalanceExcept
 import com.example.bank_notification_system.exception.UserNotFoundException;
 import com.example.bank_notification_system.model.dto.CreateUserRequestDto;
 import com.example.bank_notification_system.model.dto.MoneyTransferRequestDto;
+import com.example.bank_notification_system.model.dto.UpdateUserRequestDto;
 import com.example.bank_notification_system.model.entity.User;
 import com.example.bank_notification_system.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping
+    @PatchMapping // here do i have to add path??? without it also working, usecase???
     public ResponseEntity<List<User>> moneyTransfer(@RequestBody MoneyTransferRequestDto moneyTransferRequestDto) {
         log.info("received a request to transfer {} money from user with id {} to user with id {}",
                 moneyTransferRequestDto.getMoney(), moneyTransferRequestDto.getUserId1(), moneyTransferRequestDto.getUserId2());
@@ -57,6 +58,21 @@ public class UserController {
         }  catch (UserNotFoundException ex) {
             return ResponseEntity.status(400).build();
         } catch (InsufficienctBalanceException ex) {
+            return ResponseEntity.status(400).build();
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<User> updateAUser(@PathVariable("userId") int userId,
+                                            @RequestBody UpdateUserRequestDto updateUserRequestDto) {
+        log.info("received a request to update a user with id {} {}", userId, updateUserRequestDto);
+
+        try {
+            final User user = userService.updateAUser(userId, updateUserRequestDto);
+            return ResponseEntity.ok(user);
+        } catch(UserNotFoundException ex) {
             return ResponseEntity.status(400).build();
         } catch (Exception ex) {
             return ResponseEntity.status(500).build();
